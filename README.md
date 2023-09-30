@@ -14,4 +14,4 @@ pip install djangorestframework
 django-admin startproject admin
 ```
 Created a `Dockerfile` and `docker-compose.yml` file within the newly created django project. Also created requirements.txt to store all dependencies for the same.
-9:58
+Once Dockerfile is created, use `docker-compose up` command to build the backend. Make sure that Docker desktop is connected to avoid connection error. 20:32
