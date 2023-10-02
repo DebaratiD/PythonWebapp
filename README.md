@@ -60,3 +60,9 @@ The urls added in the products app must be accessible from the admin project. To
 path('api/', include('products.urls'))
 ```
 Use Postman to check if your api endpoints are working right.
+
+In the views.py file, another class **User** is created that behaves as an API to the User table. The get function simply returns a random user from the table using the `random` function.
+
+### Flask application
+
+Create a folder main and within that a main.py file.
