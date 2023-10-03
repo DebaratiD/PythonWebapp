@@ -66,3 +66,28 @@ In the views.py file, another class **User** is created that behaves as an API t
 ### Flask application
 
 Create a folder main and within that a main.py file.
+Add the modules or packages needed to be installed in requirement.txt. There might be lot of issues coming up from the `__init__.py` file of flask. The current requirements.txt file in this project does not currently give any error. 
+
+To migrate models from flask app to mysql, you need to be able to use the flask db commands.
+
+To connect to MySQL server, run the following commands (after creating a manager.py file that will enable db migration and specifying the models needed in main.py):
+
+In terminal 1:
+```
+cd main
+docker-compose up
+```
+
+In terminal 2:
+```
+docker-compose exec backend sh
+python manager.py db --help
+python manager.py db init
+python manager.py db migrate
+python manager.py db upgrade
+```
+
+Before the last upgrade command in terminal 2, create and connect to a mysql db connection using database client at port 33067 named main.
+
+
+### RabbitMQ setup
