@@ -1,3 +1,4 @@
-admin\.dbdata
-main\.dbdata
-admin\products\__pycache__
+admin/.dbdata
+main/.dbdata
+admin/products/__pycache__
+admin/admin/__pycache__

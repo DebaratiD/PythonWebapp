@@ -91,3 +91,34 @@ Before the last upgrade command in terminal 2, create and connect to a mysql db 
 
 
 ### RabbitMQ setup
+Create 2 python files producer and consumer. Both the files have the following set of lines in common:
+
+```
+import pika
+
+params = pika.URLParameters('amqps://vkwwrzbc:OqyV963L6I5iK4VN0LFaIWNKV-4n4xnW@beaver.rmq.cloudamqp.com/vkwwrzbc')
+
+connection = pika.BlockingConnection(params)
+
+channel = connection.channel()
+```
+
+Pika is a library that helps send events. The url in the URLParameters function is the url of the RabbitMQ cluster we are using from CloudAMQP. By using the parameters from this URL, we establish a connection to the cluster. We will then create a callback function that will generate events using `channel.basic_publish()` function. The `routing_key` param of this function determines which queue should the events be sent to.
+
+Similarly, in the `consumer.py` file, we need the following lines of code:
+
+```
+channel.queue_declare(queue='admin')
+
+def callback(chanl, method, properties, body):
+    print('Received in admin')
+    print(body)
+
+channel.basic_consume(queue='admin', on_message_callback=callback)
+channel.start_consuming()
+channel.close()
+```
+
+`channel` is used to publish as well as consume events. By using the `queue_declare(name)` function, we create a queue of that name in the RabbitMQ cluster. Any events received in this queue will be consumed using the `channel.start_consuming()` function, and the `channel.basic_consume()` function specifies which queue from which this function consumes, and what it must do upon consuming an event. Add `auto_ack=True` to consume the events coming in the queue, not just receive them.
+
+### Sending events for every product CRUD operation
