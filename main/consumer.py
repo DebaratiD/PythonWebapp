@@ -11,7 +11,7 @@ channel = connection.channel()
 channel.queue_declare(queue='main')
 
 def callback(chanl, method, properties, body):
-    print('Received in admin')
+    print('Received in main')
     # convert data back to original form from JSON
     data = json.loads(body)
     print(data)
@@ -21,18 +21,21 @@ def callback(chanl, method, properties, body):
         product = Product(id=data['id'], title=data['title'], image = data['image'])
         db.session.add(product)
         db.session.commit()
+        print("Product created")
 
     elif properties.content_type=='product_updated':
         product = Product.query.get(data['id'])
         product.title = data['title']
         product.image = data['image']
         db.session.commit()
+        print("Product updated")
 
     elif properties.content_type=='product_deleted':
         # Here data itself is the id, so no need to refer as data['id']
         product = Product.query.get(data)
         db.session.delete(product)
         db.session.commit()
+        print("Product Deleted")
 
 
 channel.basic_consume(queue='main', on_message_callback=callback, auto_ack=True)

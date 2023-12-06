@@ -122,3 +122,5 @@ channel.close()
 `channel` is used to publish as well as consume events. By using the `queue_declare(name)` function, we create a queue of that name in the RabbitMQ cluster. Any events received in this queue will be consumed using the `channel.start_consuming()` function, and the `channel.basic_consume()` function specifies which queue from which this function consumes, and what it must do upon consuming an event. Add `auto_ack=True` to consume the events coming in the queue, not just receive them.
 
 ### Sending events for every product CRUD operation
+Adding @dataclass tag before the Product class makes all objects of Product type as JSON serializable.
+For the 'like' route, we have to internally call the Django app to get a random id
