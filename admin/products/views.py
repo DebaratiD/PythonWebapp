@@ -53,4 +53,5 @@ class UserAPIView(APIView):
         user = random.choice(users)
         return Response({
             'id':user.id
+            #'data':users
         })

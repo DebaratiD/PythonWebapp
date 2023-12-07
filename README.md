@@ -124,3 +124,13 @@ channel.close()
 ### Sending events for every product CRUD operation
 Adding @dataclass tag before the Product class makes all objects of Product type as JSON serializable.
 For the 'like' route, we have to internally call the Django app to get a random id
+
+
+It is possible that you may get an error ImproperlyConfigured:  Requested setting INSTALLED_APPS which comes up when django is not properly setup. Django should be setup before using the admin app. So in consumer.py, import os and django and add the following lines:
+```
+os.environ.setdefault("DJANGO_SETTINGS_MODULE","admin.settings")
+django.setup()
+```
+After setting up the API, we see that the django app returns details on what products are available in the database. The flask app receives a request through localhost:8001 to like an item already in the database. It internally calls the user api to create a new unique record in product_user table that the user has liked this product. Once the record is successfully created, the api returns success response to the flask app. The flask app publishes the event to the django app (admin queue) which then increments the like count of that product id. 
+
+This completes the backend setup using django, flask and RabbitMQ.
